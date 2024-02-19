@@ -1,3 +1,5 @@
+import random
+import string
 import requests
 
 from flask import Flask, render_template, redirect, request, url_for
@@ -79,11 +81,13 @@ def callback():
     ).json()
 
     # Get tokens and validate
+    t_type = exchange.get("token_type")
+    print(t_type)
     if not exchange.get("token_type"):
         return "Unsupported token type. Should be 'Bearer'.", 403
     access_token = exchange["access_token"]
     id_token = exchange["id_token"]
-
+    #print(access_token)
     if not is_access_token_valid(access_token, config["issuer"]):
         return "Access token is invalid", 403
 
